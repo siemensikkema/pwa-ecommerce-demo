@@ -24,5 +24,3 @@ app.all('/checkout/', (req, res) => {
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT);
-
-console.log(`Started a local server at http://localhost:8080`);
