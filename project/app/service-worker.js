@@ -64,10 +64,22 @@ limitations under the License.
         );
       });
   
-    self.addEventListener('activate', function (event) {
-      console.log('Service worker activating...');
-    });
-  
+      self.addEventListener('activate', function(event) {
+        var cacheWhitelist = ['e-commerce-v1'];
+      
+        event.waitUntil(
+          caches.keys().then(function(cacheNames) {
+            return Promise.all(
+              cacheNames.map(function(cacheName) {
+                if (cacheWhitelist.indexOf(cacheName) === -1) {
+                  return caches.delete(cacheName);
+                }
+              })
+            );
+          })
+        );
+      });
+      
     self.addEventListener('fetch', function(event) {
         event.respondWith(
           caches.match(event.request).then(function(response) {
@@ -77,4 +89,3 @@ limitations under the License.
       });
   
   })();
-  
