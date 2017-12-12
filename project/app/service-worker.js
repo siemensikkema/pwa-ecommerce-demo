@@ -22,3 +22,59 @@ limitations under the License.
 // fetch event listener
 
 // TODO SW-5 - delete outdated caches in the activate event listener
+
+(function () {
+    'use strict';
+
+    var filesToCache = [
+        '/',
+        'index.html',
+        'scripts/main.min.js',
+        'styles/main.css',
+        'images/products/BarrelChair.jpg',
+        'images/products/C10.jpg',
+        'images/products/Cl2.jpg',
+        'images/products/CP03_blue.jpg',
+        'images/products/CPC_RECYCLED.jpg',
+        'images/products/CPFS.jpg',
+        'images/products/CPO2_red.jpg',
+        'images/products/CPT.jpg',
+        'images/products/CS1.jpg',
+        'images/touch/apple-touch-icon.png',
+        'images/touch/chrome-touch-icon-192x192.png',
+        'images/touch/icon-128x128.png',
+        'images/touch/ms-touch-icon-144x144-precomposed.png',
+        'images/about-hero-image.jpg',
+        'images/delete.svg',
+        'images/footer-background.png',
+        'images/hamburger.svg',
+        'images/header-bg.jpg',
+        'images/logo.png'
+      ];
+    
+      var staticCacheName = 'e-commerce-v1';
+  
+      self.addEventListener('install', function(event) {
+        //console.log('Attempting to install service worker and cache static assets');
+        event.waitUntil(
+          caches.open(staticCacheName)
+          .then(function(cache) {
+            return cache.addAll(filesToCache);
+          })
+        );
+      });
+  
+    self.addEventListener('activate', function (event) {
+      console.log('Service worker activating...');
+    });
+  
+    self.addEventListener('fetch', function(event) {
+        event.respondWith(
+          caches.match(event.request).then(function(response) {
+            return response || fetch(event.request);
+          })
+        );
+      });
+  
+  })();
+  
