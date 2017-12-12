@@ -58,7 +58,6 @@ export default class PaymentAPIWrapper {
         // `request.complete()` is called.
         response = r;
         let data = r.toJSON();
-        console.log(data);
         return data;
       })
       .then(data => {
